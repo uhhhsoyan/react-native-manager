@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import reducers from './reducers';
 import LoginForm from './components/LoginForm';
 
-class App extends Component  {
+class App extends Component {
     componentWillMount() {
         const config = {
             apiKey: 'AIzaSyBoG7NjvEVaWo-vf7FNATco8NWLTfeZXUM',
@@ -23,7 +23,7 @@ class App extends Component  {
             <Provider store={createStore(reducers)}>
                 <LoginForm />
             </Provider>
-        )
+        );
     }
 }
 
