@@ -5,7 +5,8 @@ import { Card, CardSection, Input, Button } from './common';
 
 class LoginForm extends Component {
     onEmailChange(text) {
-        this.props.emailChanged(text); // we have access to this.props... bc we wired up with the connect helper
+        this.props.emailChanged(text);
+        // ^^ we have access to this.props... bc we wired up with the connect helper
     }
 
     onPasswordChange(text) {
@@ -19,7 +20,8 @@ class LoginForm extends Component {
                     <Input 
                         label='email'
                         placeholder='user123@gmail.com'
-                        onChangeText={this.onEmailChange.bind(this)} // Callback function so we bind the context
+                        onChangeText={this.onEmailChange.bind(this)}
+                        // ^^ Callback function so we bind the context 
                         value={this.props.email} // from reducer... see MapStateToProps
                     />
                 </CardSection>
