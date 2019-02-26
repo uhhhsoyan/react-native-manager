@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged } from '../actions';
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Button } from './common';
 
 class LoginForm extends Component {
@@ -11,6 +11,12 @@ class LoginForm extends Component {
 
     onPasswordChange(text) {
         this.props.passwordChanged(text);
+    }
+
+    onButtonPress() {
+        const { email, password } = this.props;
+
+        this.props.loginUser({ email, password });
     }
     
     render() {
@@ -36,7 +42,7 @@ class LoginForm extends Component {
                 </CardSection>
 
                 <CardSection>
-                    <Button>
+                    <Button onPress={this.onButtonPress.bind(this)}>
                         Login
                     </Button>
                 </CardSection>
@@ -48,10 +54,11 @@ class LoginForm extends Component {
 const mapStateToProps = state => {
     return {
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        error: state.auth.error
         // 'auth' is the value we assigned our reducer to, reducer is producing 'email'
         // now within our component we have access to this.props.email aka value from reducer
     };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged })(LoginForm);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
