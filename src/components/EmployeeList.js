@@ -1,48 +1,29 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ListView, View, Text } from 'react-native';
-import { employeesFetch } from '../actions/EmployeeActions';
+import { FlatList } from 'react-native';
+import { employeesFetch } from '../actions';
+import ListItem from './ListItem';
 
 class EmployeeList extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.employeesFetch();
-        this.createDataSource(this.props);
     }
-
-    componentWillReceiveProps(nextProps) {
-        // next props are the next set of props that this component will be rendered with
-        // this.props is still the old set of props
-        this.createDataSource(nextProps);
-    }
-
-    createDataSource({ employees }) {
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
-        this.DataSource = ds.cloneWithRows(employees);
-    }
-
+    
     render() {
-        console.log(this.props);
-        return (
-            <View>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-                <Text>Employee List</Text>
-            </View>
-        );
+      return (
+        <FlatList
+          data={this.props.employees}
+          renderItem={employee => <ListItem employee={employee.item} />}
+          keyExtractor={employee => employee.uid}
+        />
+      );
     }
 }
-
-const mapStateToProps = state => {
-    const employees = _.map(state.employees, (val, uid) => {
-        return { ...val, uid }; // outputs >> { shift: 'Monday', name: 'Eric', id: '1j2j34' }
-    });
+   
+const mapStateToProps = (state) => {
+    const employees = _.map(state.employees, (values, uid) => ({ ...values, uid }));
     return { employees };
 };
-
+   
 export default connect(mapStateToProps, { employeesFetch })(EmployeeList);
